@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:inputs_app/app_routes.dart';
-import 'package:inputs_app/utils/material_color_generator.dart';
+
+import 'app_routes.dart';
+import 'utils/app_theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,11 +25,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          // useMaterial3: false,
-          // primarySwatch: generateMaterialColor(Color(0xFF00c853)),
-          colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFF00c853)),
-        ),
+        theme: getThemeData(context),
         home: const HomePage(),
         routes: appRoutes,
       ),

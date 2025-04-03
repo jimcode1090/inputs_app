@@ -11,19 +11,21 @@ class TextFieldPage extends StatefulWidget {
 }
 
 class _TextFieldPageState extends State<TextFieldPage> {
+  final TextEditingController _textEditingController = TextEditingController();
   late final List<Country> _countries;
   String _query = '';
 
   @override
   void initState() {
     super.initState();
-    // final countriesList = <Country>[];
-    // for (final country in countries) {
-    //   countriesList.add(Country.fromJson(country));
-    // }
-
-    // _countries = countriesList;
     _countries = countries.map<Country>((e) => Country.fromJson(e)).toList();
+    
+  }
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
   }
 
   @override
@@ -41,8 +43,9 @@ class _TextFieldPageState extends State<TextFieldPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         title: TextField(
+          controller: _textEditingController,
           // enabled: false,
           onChanged: (text) {
             _query = text;
@@ -51,10 +54,17 @@ class _TextFieldPageState extends State<TextFieldPage> {
           decoration: InputDecoration(
             // label: Text("Search ..."),
             hintText: 'Search ...',
-            hintStyle: TextStyle(color: Colors.black26),
-            prefixIcon: Icon(Icons.search),
-            suffixIcon: Icon(Icons.clear),
-            contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+            hintStyle: const TextStyle(color: Colors.black26),
+            prefixIcon: const Icon(Icons.search),
+            suffixIcon: IconButton(
+              onPressed: () {
+                _textEditingController.clear();
+                _query = '';
+                FocusScope.of(context).unfocus();
+              },
+              icon: const Icon(Icons.clear),
+            ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
             focusedBorder: InputBorder.none,
             enabledBorder: InputBorder.none,
             disabledBorder: InputBorder.none,
